@@ -6,5 +6,5 @@ Download the necessary files to configure the server from https://github.com/Dss
 
 ## Use
 
-1- Download the script to .zip and unzip it, then move the script to a folder where you want to install the server.
+1- Download the script to .zip and unzip it, then move the script to a folder where you want to install the server. <br>
 2- Run the script
