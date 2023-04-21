@@ -1,5 +1,8 @@
+:: Created by rec0veryyy
+:: If you want to contribute to improve the script you can do it in: https://github.com/rec0veryyy/BOIIIEasyServer
+
 @echo off
-title "BOIII EasyServer for BOIII v0.1"
+title "BOIIIEasyServer v0.1"
 
 set CurrentPath=%cd%
 set T7ServerConfigUrl="https://codeload.github.com/Dss0/t7-server-config/zip/refs/heads/main"
