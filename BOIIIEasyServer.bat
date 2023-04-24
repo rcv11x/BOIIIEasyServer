@@ -12,15 +12,15 @@ set SteamcmdUrl="https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip"
 :menu
 cls
 echo.
-echo +===========================================+
-echo +
-echo +  1) Install BOIII server in:
-echo +     \__ %CurrentPath%\BOIII
-echo +
-echo +  2) Coming soon
-echo +  0) exit
-echo +
-echo +===========================================+
+echo /////////////////////////////////////////////////////////////////////
+echo //
+echo //  1) Install BOIII server in:
+echo //     \__ %CurrentPath%\BOIII
+echo //
+echo //  2) Coming soon
+echo //  0) exit
+echo //
+echo /////////////////////////////////////////////////////////////////////
 echo.
 set /p option=">> "
 
@@ -41,31 +41,41 @@ cls
 echo.
 echo Installing Steamcmd...
 timeout 5 > nul
-curl -s %SteamcmdUrl% -o %CurrentPath%\%SteamcmdFile%
+curl -s %SteamcmdUrl% -o %SteamcmdFile%
 tar -xf %SteamcmdFile%
 del %SteamcmdFile%
 mkdir steamcmd BOIII
-move steamcmd.exe %CurrentPath%\steamcmd
+move steamcmd.exe steamcmd
 cd steamcmd
 cls
 echo.
 echo Downloading Black Ops 3 Server from Steamcmd...
 timeout 5 > nul
 steamcmd +force_install_dir ..\BOIII +login anonymous +app_update 545990 validate +quit
+cd ..
 cls
 echo Downloading BOIII Server files from https://github.com/Dss0/t7-server-config
 timeout 5 > nul
-curl -s %T7ServerConfigUrl% -o %CurrentPath%\BOIII\UnrankedServer\main.zip
-cd %CurrentPath%\BOIII\UnrankedServer
-tar -xf %CurrentPath%\BOIII\UnrankedServer\main.zip
-xcopy /s /e %CurrentPath%\BOIII\UnrankedServer\t7-server-config-main\*.* %CurrentPath%\BOIII\UnrankedServer
+cd BOIII\UnrankedServer
+curl -s %T7ServerConfigUrl% -o main.zip
+tar -xf main.zip
+xcopy /s /e t7-server-config-main\*.*
 rmdir /s /q t7-server-config-main
 del main.zip
 echo.
 cls
 echo.
+echo.///////////////////////////////////////////////////////////////////////////
+echo //
+echo //   Server Installed in: %CurrentPath%\BOIII\UnrankedServer
+echo //       
+echo //   Now you can edit your server in the path: UnrankedServer\zone
+echo //    - For MP: server.cfg
+echo //    - For ZM: server_zm.cfg
+echo //   
+echo //   Visit the Github wiki to configure your server: 
+echo //               \__ Soon
 echo.
-echo Server Installed in: %CurrentPath%\BOIII\UnrankedServer
 echo You can close the script ;)
 echo.
 cd %CurrentPath%
