@@ -74,7 +74,7 @@ echo //    - For MP: server.cfg
 echo //    - For ZM: server_zm.cfg
 echo //   
 echo //   Visit the Github wiki to configure your server: 
-echo //               \__ Soon
+echo //               \__ https://github.com/rec0veryyy/BOIIIEasyServer/wiki
 echo.
 echo You can close the script ;)
 echo.
