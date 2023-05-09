@@ -236,10 +236,12 @@ if not defined BOIIIServerInstallPath (
 		echo The folder has been cleaned AppData\boiii now you can ^start boiii.exe again.
 		echo.
 		pause
+		goto menu
 	) else (
 		echo No files were found in the AppData\boiii folder.
 		echo.
 		pause
+		goto menu
 
 	)
 
