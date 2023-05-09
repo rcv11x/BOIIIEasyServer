@@ -4,7 +4,7 @@
 
 
 :: Choose a path where you want to install boiii server
-:: Example: set "BOIIIServerInstallPath=C:\Users\Administrador\Documents\servidor bo3"
+:: Example: set "BOIIIServerInstallPath=C:\Users\Administrator\Documents\bo3 server"
 set "BOIIIServerInstallPath="
 
 :: Choose a path where you want to install steamcmd
@@ -43,6 +43,7 @@ echo //  [!] Welcome %username%!
 echo //
 echo //  1) Install dedicated BOIII server
 echo //  2) Install steamcmd
+echo //  3) Repair boiii
 echo //  0) exit
 echo //
 echo /////////////////////////////////////////////////////////////////////
@@ -51,6 +52,7 @@ set /p option=">> "
 
 if %option% == 1 goto opt1
 if %option% == 2 goto opt2
+if %option% == 3 goto opt3
 if %option% == 0 goto exitScript
 
 :: Error message, validation when an out-of-range option is selected
@@ -160,71 +162,89 @@ if not defined BOIIIServerInstallPath (
 )
 
 :opt2
-cls
-echo // STEAMCMD INSTALLATION // 
-echo.
-echo.
-echo [!] Steamcmd is to be installed on: %SteamcmdInstallPath%\steamcmd
-echo [!] Press (y) to confirm or (n) to exit to the menu.
-echo.   
-set /p install_steamcmd_opt=">> "
+	cls
+	echo // STEAMCMD INSTALLATION // 
+	echo.
+	echo.
+	echo [!] Steamcmd is to be installed on: %SteamcmdInstallPath%\steamcmd
+	echo [!] Press (y) to confirm or (n) to exit to the menu.
+	echo.   
+	set /p install_steamcmd_opt=">> "
 
-if "%install_steamcmd_opt%" == "y" goto install_steamcmd
-if "%install_steamcmd_opt%" == "Y" goto install_steamcmd
-if "%install_steamcmd_opt%" == "n" goto menu
-if "%install_steamcmd_opt%" == "N" goto menu
-if "%install_steamcmd_opt%" == "" goto opt2
+	if "%install_steamcmd_opt%" == "y" goto install_steamcmd
+	if "%install_steamcmd_opt%" == "Y" goto install_steamcmd
+	if "%install_steamcmd_opt%" == "n" goto menu
+	if "%install_steamcmd_opt%" == "N" goto menu
+	if "%install_steamcmd_opt%" == "" goto opt2
 
-echo.
-echo ( Option "%install_steamcmd_opt%" is not valid )
-echo.
-pause
-echo.
-goto opt2
+	echo.
+	echo ( Option "%install_steamcmd_opt%" is not valid )
+	echo.
+	pause
+	echo.
+	goto opt2
 
 :install_steamcmd
-if not defined SteamcmdInstallPath (
-    echo.
-    echo [ERROR] SteamcmdInstallPath variable is not defined!, please set a valid directory path
-    echo.
-    pause
-    goto opt2
-) else if not exist "%SteamcmdInstallPath%" (
-    echo.
-    echo [ERROR] The directory specified in SteamcmdInstallPath does not exist or is invalid!
-    echo [ERROR] Please provide a valid directory path or update the variable in the script.
-    echo.
-    pause
-    goto opt2
-) else if exist "%SteamcmdInstallPath%\steamcmd" (
-	echo.
-    echo [Error] Steamcmd is already installed in that path: %SteamcmdInstallPath%\steamcmd
-    echo.
-    pause
-    goto opt2
-) else (
-	echo [!] Installing Steamcmd...
-	timeout 5 > nul
-	cd /d "%SteamcmdInstallPath%"
-	mkdir steamcmd
-	cd steamcmd
-	curl -s "%SteamcmdUrl%" -o "%SteamcmdFile%"
-	tar -xf "%SteamcmdFile%"
-	del "%SteamcmdFile%"
-	steamcmd +quit
-	::move steamcmd.exe steamcmd
+	if not defined SteamcmdInstallPath (
+		echo.
+		echo [ERROR] SteamcmdInstallPath variable is not defined!, please set a valid directory path
+		echo.
+		pause
+		goto opt2
+	) else if not exist "%SteamcmdInstallPath%" (
+		echo.
+		echo [ERROR] The directory specified in SteamcmdInstallPath does not exist or is invalid!
+		echo [ERROR] Please provide a valid directory path or update the variable in the script.
+		echo.
+		pause
+		goto opt2
+	) else if exist "%SteamcmdInstallPath%\steamcmd" (
+		echo.
+		echo [Error] Steamcmd is already installed in that path: %SteamcmdInstallPath%\steamcmd
+		echo.
+		pause
+		goto opt2
+	) else (
+		echo [!] Installing Steamcmd...
+		timeout 5 > nul
+		cd /d "%SteamcmdInstallPath%"
+		mkdir steamcmd
+		cd steamcmd
+		curl -s "%SteamcmdUrl%" -o "%SteamcmdFile%"
+		tar -xf "%SteamcmdFile%"
+		del "%SteamcmdFile%"
+		steamcmd +quit
+		::move steamcmd.exe steamcmd
+		cls
+		echo.
+		echo //////////////////////////////////////////////////////////////////////////////////////////////
+		echo //
+		echo //  Steamcmd has been installed successfully
+		echo //  You can open steamcmd from: %SteamcmdInstallPath%\steamcmd\steamcmd.exe
+		echo //
+		echo //////////////////////////////////////////////////////////////////////////////////////////////
+		cd "%CurrentPath%"
+		pause
+		goto menu
+	)
+
+:opt3
 	cls
 	echo.
-	echo //////////////////////////////////////////////////////////////////////////////////////////////
-	echo //
-	echo //  Steamcmd has been installed successfully
-	echo //  You can open steamcmd from: %SteamcmdInstallPath%\steamcmd\steamcmd.exe
-	echo //
-	echo //////////////////////////////////////////////////////////////////////////////////////////////
-	cd "%CurrentPath%"
-	pause
-	goto menu
-)
+	if exist "%USERPROFILE%\AppData\Local\boiii" (
+		rmdir /s /q "%USERPROFILE%\AppData\Local\boiii"
+		echo The folder has been cleaned AppData\boiii now you can ^start boiii.exe again.
+		echo.
+		pause
+	) else (
+		echo No files were found in the AppData\boiii folder.
+		echo.
+		pause
+
+	)
+
+
+
 
 :exitScript
-exit
+	exit
